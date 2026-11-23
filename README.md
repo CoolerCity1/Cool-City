@@ -50,7 +50,7 @@ Server-Secret rotieren: neuen Wert in Vercel setzen **und** `update private.sett
 
 ## Supabase
 
-- Migrationen: `supabase/migrations/` (maßgeblich; keine manuellen Tabellen in Produktion).
+- Migrationen: siehe `supabase/migrations/README.md` (maßgeblich; keine manuellen Tabellen in Produktion).
 - Buckets: `media` (öffentlich), `investor-docs` (privat, nur PDF).
 - **Admin anlegen:** Supabase Dashboard → Authentication → *Add user* (E-Mail + Passwort, MFA empfohlen). Danach:
   ```sql
