@@ -1,12 +1,36 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
+import { GATE_COOKIE, gateEnabled, isAuthorized } from "@/lib/gate";
 
 const LOCALES = ["de", "en", "es", "it", "fr", "pt"];
 
-export async function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl;
+/** Pfade, die auch ohne Vorschau-Passwort erreichbar sein müssen. */
+const GATE_EXEMPT = [/^\/api\/gate$/, /^\/api\/cron\//, /^\/api\/resend-webhook$/, /^\/vorschau$/, /^\/brand\//, /^\/robots\.txt$/, /^\/favicon\.ico$/];
 
-  // Admin: Supabase-Session auffrischen und unangemeldete Besucher zum Login schicken
+export async function middleware(req: NextRequest) {
+  const { pathname, search } = req.nextUrl;
+
+  // 1) Ankündigungsseite mit Passwort, solange SITE_PASSWORD gesetzt ist
+  if (gateEnabled() && !GATE_EXEMPT.some((r) => r.test(pathname)) && !(await isAuthorized(req.cookies.get(GATE_COOKIE)?.value))) {
+    if (pathname.startsWith("/api/") || req.method !== "GET") {
+      return new NextResponse("Unauthorized", { status: 401, headers: { "X-Robots-Tag": "noindex, nofollow" } });
+    }
+    const url = req.nextUrl.clone();
+    url.pathname = "/vorschau";
+    url.search = "";
+    url.searchParams.set("next", pathname + search);
+    const res = NextResponse.rewrite(url);
+    res.headers.set("X-Robots-Tag", "noindex, nofollow");
+    res.headers.set("Cache-Control", "private, no-store");
+    return res;
+  }
+
+  // Statische Dateien, API und Vorschauseite ohne weitere Logik durchreichen
+  if (pathname.startsWith("/api/") || pathname === "/vorschau" || /\.[a-zA-Z0-9]+$/.test(pathname)) {
+    return NextResponse.next();
+  }
+
+  // 2) Admin: Supabase-Session auffrischen und unangemeldete Besucher zum Login schicken
   if (pathname.startsWith("/admin")) {
     let res = NextResponse.next({ request: req });
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -33,6 +57,7 @@ export async function middleware(req: NextRequest) {
     return res;
   }
 
+  // 3) Sprachpräfix erzwingen
   const first = pathname.split("/")[1];
   if (!LOCALES.includes(first)) {
     const url = req.nextUrl.clone();
@@ -46,5 +71,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next|brand|media|images|favicon.ico|robots.txt|sitemap.xml|manifest.webmanifest|.*\\.[a-zA-Z0-9]+$).*)"],
+  matcher: ["/((?!_next/static|_next/image).*)"],
 };

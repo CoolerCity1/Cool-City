@@ -44,6 +44,7 @@ npm test                     # Routing, Markdown-Sanitizing, ICS
 | `INTERNAL_NOTIFY_EMAIL` | nur Server | interne Benachrichtigung neuer Leads (leer = aus) |
 | `RESEND_WEBHOOK_SECRET` | nur Server | `whsec_…` des Resend-Webhooks auf `/api/resend-webhook` |
 | `CRON_SECRET` | nur Server | Vercel Cron sendet `Authorization: Bearer …` an `/api/cron/webinar-reminders` |
+| `SITE_PASSWORD` | nur Server | Ankündigungsseite mit Passwort; Variable in Vercel löschen + Redeploy = Website öffentlich |
 | `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | optional | datenschutzfreundliche Analytics, erst nach rechtlicher Prüfung |
 
 Server-Secret rotieren: neuen Wert in Vercel setzen **und** `update private.settings set value = '<neu>' where key = 'server_rpc_secret';` ausführen.
