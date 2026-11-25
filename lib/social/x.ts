@@ -8,9 +8,7 @@ export function xConfigured(): boolean {
   return !!(process.env.X_API_KEY && process.env.X_API_SECRET && process.env.X_ACCESS_TOKEN && process.env.X_ACCESS_TOKEN_SECRET);
 }
 
-/** Erstellt einen Post über die X API v2 (OAuth 1.0a User Context). */
-export async function postToX(text: string): Promise<{ id: string }> {
-  const url = "https://api.x.com/2/tweets";
+function oauthHeader(method: "GET" | "POST", url: string): string {
   const oauth: Record<string, string> = {
     oauth_consumer_key: process.env.X_API_KEY!,
     oauth_nonce: randomBytes(16).toString("hex"),
@@ -23,14 +21,32 @@ export async function postToX(text: string): Promise<{ id: string }> {
     .sort()
     .map((k) => `${enc(k)}=${enc(oauth[k])}`)
     .join("&");
-  const base = ["POST", enc(url), enc(paramString)].join("&");
+  const base = [method, enc(url), enc(paramString)].join("&");
   const key = `${enc(process.env.X_API_SECRET!)}&${enc(process.env.X_ACCESS_TOKEN_SECRET!)}`;
   oauth.oauth_signature = createHmac("sha1", key).update(base).digest("base64");
-  const header = "OAuth " + Object.keys(oauth).sort().map((k) => `${enc(k)}="${enc(oauth[k])}"`).join(", ");
+  return "OAuth " + Object.keys(oauth).sort().map((k) => `${enc(k)}="${enc(oauth[k])}"`).join(", ");
+}
 
+/** Prüft die Zugangsdaten ohne zu posten (liest nur den eigenen Account). */
+export async function verifyX(): Promise<{ ok: true; username: string } | { ok: false; error: string }> {
+  if (!xConfigured()) return { ok: false, error: "X-Zugangsdaten fehlen" };
+  const url = "https://api.x.com/2/users/me";
+  try {
+    const res = await fetch(url, { headers: { Authorization: oauthHeader("GET", url) }, cache: "no-store" });
+    const body = (await res.json().catch(() => ({}))) as { data?: { username?: string }; detail?: string; title?: string };
+    if (!res.ok || !body.data?.username) return { ok: false, error: `X ${res.status}: ${body.detail ?? body.title ?? res.statusText}` };
+    return { ok: true, username: body.data.username };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : String(e) };
+  }
+}
+
+/** Erstellt einen Post über die X API v2 (OAuth 1.0a User Context). */
+export async function postToX(text: string): Promise<{ id: string }> {
+  const url = "https://api.x.com/2/tweets";
   const res = await fetch(url, {
     method: "POST",
-    headers: { Authorization: header, "Content-Type": "application/json" },
+    headers: { Authorization: oauthHeader("POST", url), "Content-Type": "application/json" },
     body: JSON.stringify({ text }),
     cache: "no-store",
   });

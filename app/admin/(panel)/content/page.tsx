@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { supabaseServer } from "@/lib/supabase/server";
 import { fmtDate } from "@/lib/admin-format";
-import { setContentStatus, saveArticle, runSocialQueue, retrySocialPost } from "../../actions";
+import { setContentStatus, saveArticle, runSocialQueue, retrySocialPost, testXConnection } from "../../actions";
 import { socialAutopostActive } from "@/lib/social/queue";
 import { xConfigured } from "@/lib/social/x";
 import { linkedinConfigured } from "@/lib/social/linkedin";
@@ -24,8 +24,8 @@ function StatusSwitch({ id, current }: { id: string; current: string }) {
   );
 }
 
-export default async function Content({ searchParams }: { searchParams: Promise<{ e?: string }> }) {
-  const { e } = await searchParams;
+export default async function Content({ searchParams }: { searchParams: Promise<{ e?: string; xcheck?: string; xuser?: string }> }) {
+  const { e, xcheck, xuser } = await searchParams;
   const supabase = await supabaseServer();
   const { data } = await supabase.from("content_entries").select("id, content_type, slug, locale, title, status, data, updated_at").order("updated_at", { ascending: false });
   const facts = (data ?? []).filter((x) => x.content_type === "fact");
@@ -64,8 +64,16 @@ export default async function Content({ searchParams }: { searchParams: Promise<
               <li className={`rounded-full px-3 py-1 font-bold ${linkedinConfigured() ? "bg-forest-soft text-forest" : "bg-concrete text-muted"}`}>LinkedIn {linkedinConfigured() ? "verbunden" : "nicht eingerichtet"}</li>
             </ul>
           </div>
-          <form action={runSocialQueue}><button className="btn btn-secondary !min-h-10 text-sm">Warteschlange jetzt abarbeiten</button></form>
+          <div className="flex flex-wrap gap-2">
+            <form action={testXConnection}><button className="btn btn-secondary !min-h-10 text-sm">X-Verbindung testen</button></form>
+            <form action={runSocialQueue}><button className="btn btn-secondary !min-h-10 text-sm">Warteschlange jetzt abarbeiten</button></form>
+          </div>
         </div>
+        {xcheck && (
+          <p role="status" className={`mt-4 rounded-xl p-4 font-semibold ${xcheck === "ok" ? "bg-forest-soft text-forest" : "bg-[#fbeee8] text-signal"}`}>
+            {xcheck === "ok" ? `X-Verbindung funktioniert (Account @${xuser ?? "?"}). Es wurde nichts gepostet.` : `X-Verbindung fehlgeschlagen: ${xcheck}`}
+          </p>
+        )}
         <div className="card mt-4 overflow-x-auto">
           <table className="w-full min-w-[44rem] text-left text-sm">
             <thead className="border-b border-line text-xs uppercase text-muted"><tr><th className="p-3">Beitrag</th><th className="p-3">Kanal</th><th className="p-3">Status</th><th className="p-3">Zeit</th><th className="p-3" /></tr></thead>

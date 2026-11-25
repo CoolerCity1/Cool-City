@@ -8,6 +8,7 @@ import { deckAccess } from "@/lib/email/templates";
 import { isLocale } from "@/lib/i18n/config";
 import { after } from "next/server";
 import { processSocialQueue } from "@/lib/social/queue";
+import { verifyX } from "@/lib/social/x";
 
 async function requireRole(roles: Role[]) {
   const staff = await getStaff();
@@ -319,4 +320,10 @@ export async function retrySocialPost(fd: FormData) {
   await supabase.from("social_posts").update({ status: "pending", attempts: 0, error: null, updated_at: new Date().toISOString() }).eq("id", id).in("status", ["failed", "skipped"]);
   await audit("social.retry", "social_posts", id);
   revalidatePath("/admin/content");
+}
+
+export async function testXConnection() {
+  await requireRole(["admin", "editor"]);
+  const r = await verifyX();
+  redirect(r.ok ? `/admin/content?xcheck=ok&xuser=${encodeURIComponent(r.username)}` : `/admin/content?xcheck=${encodeURIComponent(r.error.slice(0, 200))}`);
 }
