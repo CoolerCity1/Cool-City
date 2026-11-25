@@ -559,7 +559,7 @@ const pt: Dictionary = {
   webinarCancel: { success: "A sua inscrição no webinar foi cancelada.", invalid: "Esta ligação não é válida ou a inscrição já foi cancelada." },
   legal: {
     draftNotice: "Rascunho: este texto será revisto juridicamente e completado antes do lançamento.",
-    imprint: { title: "Aviso legal", provider: "Prestador", represented: "Representado por", contact: "Contacto", register: "Registo comercial", vat: "NIF/IVA", responsible: "Responsável pelo conteúdo", pending: "Será completado antes do lançamento." },
+    imprint: { title: "Aviso legal", labelOf: "{brand} é uma marca da {company}.", provider: "Prestador", represented: "Representado por", contact: "Contacto", register: "Registo comercial", vat: "NIF/IVA", responsible: "Responsável pelo conteúdo", pending: "Será completado antes do lançamento." },
     privacy: {
       title: "Aviso de privacidade",
       sections: [

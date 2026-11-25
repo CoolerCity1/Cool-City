@@ -3,6 +3,7 @@ import { sendMail } from "@/lib/email/send";
 import { webinarConfirmation } from "@/lib/email/templates";
 import { siteUrl } from "@/lib/site";
 import { href, isLocale } from "@/lib/i18n/config";
+import { processSocialQueue } from "@/lib/social/queue";
 
 export const dynamic = "force-dynamic";
 
@@ -23,5 +24,7 @@ export async function GET(req: Request) {
     const res = await sendMail({ key: `webinar-reminder:${r.registration_id}`, event: "webinar_reminder", to: r.email, ...mail, locale, template: "webinar_reminder" });
     if (res.ok && !res.skipped) sent++;
   }
-  return Response.json({ due: due.length, sent });
+  // Zusätzlich: Social-Warteschlange abarbeiten (Wiederholungen, falls der Sofortversand fehlschlug)
+  const social = await processSocialQueue().catch((e) => ({ error: e instanceof Error ? e.message : String(e) }));
+  return Response.json({ due: due.length, sent, social });
 }

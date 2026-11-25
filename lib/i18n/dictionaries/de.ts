@@ -592,6 +592,7 @@ const de = {
     draftNotice: "Entwurf – dieser Text wird vor dem Livegang juristisch geprüft und vervollständigt.",
     imprint: {
       title: "Impressum",
+      labelOf: "{brand} ist ein Label der {company}.",
       provider: "Anbieter",
       represented: "Vertreten durch",
       contact: "Kontakt",

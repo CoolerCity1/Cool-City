@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { supabaseServer } from "@/lib/supabase/server";
 import { fmtDate } from "@/lib/admin-format";
-import { setContentStatus, saveArticle } from "../../actions";
+import { setContentStatus, saveArticle, runSocialQueue, retrySocialPost } from "../../actions";
+import { socialAutopostActive } from "@/lib/social/queue";
+import { xConfigured } from "@/lib/social/x";
+import { linkedinConfigured } from "@/lib/social/linkedin";
 import { ArticleFields } from "./ArticleFields";
 
 const statuses = ["draft", "reviewed", "published"] as const;
@@ -27,6 +30,9 @@ export default async function Content({ searchParams }: { searchParams: Promise<
   const { data } = await supabase.from("content_entries").select("id, content_type, slug, locale, title, status, data, updated_at").order("updated_at", { ascending: false });
   const facts = (data ?? []).filter((x) => x.content_type === "fact");
   const articles = (data ?? []).filter((x) => x.content_type === "article");
+  const { data: social } = await supabase.from("social_posts").select("id, channel, status, attempts, error, external_id, created_at, sent_at, content_entries(title, locale)").order("created_at", { ascending: false }).limit(30);
+  const auto = socialAutopostActive();
+  const socialStatus: Record<string, string> = { pending: "Wartet", processing: "In Arbeit", sent: "Gepostet", failed: "Fehlgeschlagen", skipped: "Übersprungen" };
   return (
     <div className="space-y-10">
       <section>
@@ -45,6 +51,42 @@ export default async function Content({ searchParams }: { searchParams: Promise<
               </div>
             );
           })}
+        </div>
+      </section>
+      <section>
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h2 className="text-2xl font-extrabold">Automatisches Posten (X & LinkedIn)</h2>
+            <p className="mt-2 max-w-3xl text-slate-soft">Neu veröffentlichte Beiträge der Sprachen aus der Einstellung „social_locales“ (Standard: Deutsch) werden automatisch gepostet. Bereits gepostete Beiträge werden nicht erneut gepostet.</p>
+            <ul className="mt-3 flex flex-wrap gap-2 text-sm">
+              <li className={`rounded-full px-3 py-1 font-bold ${auto.active ? "bg-forest-soft text-forest" : "bg-[#fbeee8] text-signal"}`}>{auto.active ? "Aktiv" : `Pausiert: ${auto.reason}`}</li>
+              <li className={`rounded-full px-3 py-1 font-bold ${xConfigured() ? "bg-forest-soft text-forest" : "bg-concrete text-muted"}`}>X {xConfigured() ? "verbunden" : "nicht eingerichtet"}</li>
+              <li className={`rounded-full px-3 py-1 font-bold ${linkedinConfigured() ? "bg-forest-soft text-forest" : "bg-concrete text-muted"}`}>LinkedIn {linkedinConfigured() ? "verbunden" : "nicht eingerichtet"}</li>
+            </ul>
+          </div>
+          <form action={runSocialQueue}><button className="btn btn-secondary !min-h-10 text-sm">Warteschlange jetzt abarbeiten</button></form>
+        </div>
+        <div className="card mt-4 overflow-x-auto">
+          <table className="w-full min-w-[44rem] text-left text-sm">
+            <thead className="border-b border-line text-xs uppercase text-muted"><tr><th className="p-3">Beitrag</th><th className="p-3">Kanal</th><th className="p-3">Status</th><th className="p-3">Zeit</th><th className="p-3" /></tr></thead>
+            <tbody>
+              {(social ?? []).map((p) => {
+                const c = p.content_entries as unknown as { title: string; locale: string } | null;
+                return (
+                  <tr key={p.id} className="border-b border-line last:border-0">
+                    <td className="p-3 font-semibold">{c?.title ?? "–"} <span className="font-normal text-muted">· {c?.locale}</span></td>
+                    <td className="p-3">{p.channel === "x" ? "X" : "LinkedIn"}</td>
+                    <td className="p-3">{socialStatus[p.status] ?? p.status}{p.error ? <span className="block text-xs text-signal">{p.error}</span> : null}</td>
+                    <td className="p-3">{fmtDate(p.sent_at ?? p.created_at)}</td>
+                    <td className="p-3 text-right">{(p.status === "failed" || p.status === "skipped") && (
+                      <form action={retrySocialPost}><input type="hidden" name="id" value={p.id} /><button className="rounded-full px-3 py-1.5 text-xs font-bold hover:bg-concrete">Erneut versuchen</button></form>
+                    )}</td>
+                  </tr>
+                );
+              })}
+              {!social?.length && <tr><td colSpan={5} className="p-6 text-muted">Noch keine Beiträge in der Warteschlange.</td></tr>}
+            </tbody>
+          </table>
         </div>
       </section>
       <section className="grid gap-8 lg:grid-cols-2">

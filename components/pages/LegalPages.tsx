@@ -25,12 +25,16 @@ export function PrivacyPage({ d }: { locale: Locale; d: Dictionary }) {
   );
 }
 
-export function ImprintPage({ d }: { locale: Locale; d: Dictionary }) {
+export function ImprintPage({ locale, d }: { locale: Locale; d: Dictionary }) {
   const i = d.legal.imprint;
+  let country = company.country;
+  try {
+    if (company.country) country = new Intl.DisplayNames([locale], { type: "region" }).of(company.country) ?? company.country;
+  } catch {}
   const rows: [string, string | null][] = [
-    [i.provider, [company.legalName, company.street, company.postalCity, company.country].filter(Boolean).join(", ") || null],
+    [i.provider, [company.legalName, company.street, company.postalCity, country].filter(Boolean).join(", ") || null],
     [i.represented, company.representative],
-    [i.contact, [company.email, company.phone].filter(Boolean).join(" · ") || null],
+    [i.contact, [company.imprintEmail ?? company.email, company.phone].filter(Boolean).join(" · ") || null],
     [i.register, company.register],
     [i.vat, company.vatId],
     [i.responsible, company.responsibleForContent],
@@ -38,6 +42,7 @@ export function ImprintPage({ d }: { locale: Locale; d: Dictionary }) {
   const incomplete = rows.some(([, v]) => !v);
   return (
     <Shell title={i.title} notice={incomplete ? d.legal.draftNotice : undefined}>
+      {company.isLabelOfProvider && company.legalName && <p>{i.labelOf.replace("{brand}", company.brand).replace("{company}", company.legalName)}</p>}
       <dl className="not-prose grid gap-px overflow-hidden rounded-2xl border border-line bg-line">
         {rows.map(([k, v]) => (
           <div key={k} className="grid gap-1 bg-white p-5 sm:grid-cols-[14rem_1fr]">

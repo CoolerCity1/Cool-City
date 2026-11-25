@@ -6,6 +6,8 @@ import { supabaseServer, getStaff, type Role } from "@/lib/supabase/server";
 import { sendMail } from "@/lib/email/send";
 import { deckAccess } from "@/lib/email/templates";
 import { isLocale } from "@/lib/i18n/config";
+import { after } from "next/server";
+import { processSocialQueue } from "@/lib/social/queue";
 
 async function requireRole(roles: Role[]) {
   const staff = await getStaff();
@@ -158,6 +160,7 @@ export async function setContentStatus(fd: FormData) {
   await audit("content.status", "content_entries", id, { status });
   revalidateTag("content");
   revalidatePath("/admin/content");
+  if (status === "published") after(() => processSocialQueue().catch((e) => console.error("[social] after publish", e)));
 }
 
 export async function saveArticle(fd: FormData) {
@@ -299,4 +302,21 @@ export async function deleteEvent(fd: FormData) {
   revalidateTag("content");
   revalidatePath("/admin/events");
   redirect("/admin/events");
+}
+
+/* ---------- Social-Posting ---------- */
+export async function runSocialQueue() {
+  await requireRole(["admin", "editor"]);
+  await processSocialQueue().catch((e) => console.error("[social] manual run", e));
+  revalidatePath("/admin/content");
+}
+
+export async function retrySocialPost(fd: FormData) {
+  await requireRole(["admin", "editor"]);
+  const id = str(fd, "id");
+  if (!id) return;
+  const supabase = await supabaseServer();
+  await supabase.from("social_posts").update({ status: "pending", attempts: 0, error: null, updated_at: new Date().toISOString() }).eq("id", id).in("status", ["failed", "skipped"]);
+  await audit("social.retry", "social_posts", id);
+  revalidatePath("/admin/content");
 }
