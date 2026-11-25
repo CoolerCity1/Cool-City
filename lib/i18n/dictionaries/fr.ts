@@ -91,7 +91,6 @@ const fr: Dictionary = {
       title: "Les places minéralisées chauffent. Les nouveaux arbres prennent des années.",
       text:
         "La pierre, l'asphalte et le manque d'ombre rendent de nombreuses places inhospitalières en été. Planter des arbres pérennes et désimperméabiliser reste la bonne voie, mais les réseaux, les parkings souterrains, la protection du patrimoine ou les délais de planification l'empêchent souvent à court terme.",
-      note: "Cool City est une mesure mobile complémentaire, et non un substitut aux arbres pérennes ou à la désimperméabilisation.",
       benefits: [
         { title: "Installation rapide", text: "Sans travaux de génie civil sur site, sous réserve d'une étude de site et de sécurité." },
         { title: "Exploitation professionnelle", text: "Livraison, suivi, entretien et stockage saisonnier dans le périmètre convenu." },

@@ -42,14 +42,7 @@ export async function HomePage({ locale, d }: { locale: Locale; d: Dictionary })
       {/* Problem & Lösung */}
       <section className="py-20 md:py-28">
         <div className="wrap">
-          <div className="grid gap-10 lg:grid-cols-12">
-            <div className="lg:col-span-7">
-              <SectionHead eyebrow={h.problem.eyebrow} title={h.problem.title} text={h.problem.text} />
-            </div>
-            <div className="flex items-end lg:col-span-5">
-              <p className="rounded-2xl border-l-4 border-water bg-water-soft p-6 text-[1.05rem] font-semibold leading-relaxed text-slate">{h.problem.note}</p>
-            </div>
-          </div>
+          <SectionHead eyebrow={h.problem.eyebrow} title={h.problem.title} text={h.problem.text} />
           <ul className="mt-14 grid gap-4 md:grid-cols-3">
             {h.problem.benefits.map((b, i) => (
               <li key={b.title} className="card p-7 md:p-8">

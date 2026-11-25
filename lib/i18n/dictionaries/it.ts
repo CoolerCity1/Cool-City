@@ -91,7 +91,6 @@ const it: Dictionary = {
       title: "Le piazze impermeabilizzate si surriscaldano. I nuovi alberi richiedono anni.",
       text:
         "Pietra, asfalto e mancanza d'ombra rendono molte piazze inospitali d'estate. Piantare alberi permanenti e de-impermeabilizzare resta la strada giusta, ma sottoservizi, parcheggi interrati, tutela dei beni culturali o tempi di pianificazione spesso lo impediscono nel breve periodo.",
-      note: "Cool City è una misura mobile complementare, non un sostituto degli alberi urbani permanenti o della de-impermeabilizzazione.",
       benefits: [
         { title: "Installazione rapida", text: "Senza opere edili sul posto, previa verifica del sito e della sicurezza." },
         { title: "Gestione professionale", text: "Consegna, monitoraggio, manutenzione e rimessaggio stagionale nell'ambito concordato." },

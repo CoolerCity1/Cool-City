@@ -89,7 +89,6 @@ const de = {
       title: "Versiegelte Plätze heizen sich auf. Neue Stadtbäume brauchen Jahre.",
       text:
         "Stein, Asphalt und fehlender Schatten machen viele Innenstadtplätze im Sommer unwirtlich. Dauerhafte Baumpflanzungen und Entsiegelung bleiben der richtige Weg – sind aber wegen Leitungen, Tiefgaragen, Denkmalschutz oder Planungszeiten oft nicht kurzfristig umsetzbar.",
-      note: "Cool City ist eine ergänzende, mobile Maßnahme – kein Ersatz für dauerhafte Stadtbäume oder Entsiegelung.",
       benefits: [
         { title: "Schnell aufstellbar", text: "Ohne Tiefbauarbeiten am Aufstellort – vorbehaltlich Standort- und Sicherheitsprüfung." },
         { title: "Professionell betrieben", text: "Lieferung, Monitoring, Pflege und saisonale Einlagerung im vereinbarten Leistungsumfang." },

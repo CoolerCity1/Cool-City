@@ -91,7 +91,6 @@ const pt: Dictionary = {
       title: "As praças impermeabilizadas aquecem. As novas árvores demoram anos.",
       text:
         "Pedra, asfalto e falta de sombra tornam muitas praças inóspitas no verão. Plantar árvores permanentes e desimpermeabilizar continua a ser o caminho certo, mas redes enterradas, parques subterrâneos, proteção do património ou prazos de planeamento impedem-no muitas vezes a curto prazo.",
-      note: "A Cool City é uma medida móvel complementar, não um substituto das árvores urbanas permanentes nem da desimpermeabilização.",
       benefits: [
         { title: "Instalação rápida", text: "Sem obras de construção no local, sujeito a avaliação do local e de segurança." },
         { title: "Operação profissional", text: "Entrega, monitorização, manutenção e armazenamento sazonal no âmbito acordado." },

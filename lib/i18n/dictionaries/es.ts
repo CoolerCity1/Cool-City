@@ -91,7 +91,6 @@ const es: Dictionary = {
       title: "Las plazas selladas se calientan. Los nuevos árboles tardan años.",
       text:
         "La piedra, el asfalto y la falta de sombra hacen que muchas plazas sean inhóspitas en verano. Plantar árboles permanentes y desellar el suelo sigue siendo el camino correcto, pero las redes de servicios, los aparcamientos subterráneos, la protección del patrimonio o los plazos de planificación a menudo lo impiden a corto plazo.",
-      note: "Cool City es una medida móvil complementaria, no un sustituto de los árboles urbanos permanentes ni del desellado.",
       benefits: [
         { title: "Instalación rápida", text: "Sin obra civil en el emplazamiento, sujeto a análisis del lugar y de seguridad." },
         { title: "Operación profesional", text: "Entrega, monitorización, mantenimiento y almacenaje estacional dentro del alcance acordado." },

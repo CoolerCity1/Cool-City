@@ -91,7 +91,6 @@ const en: Dictionary = {
       title: "Sealed squares heat up. New street trees take years.",
       text:
         "Stone, asphalt and a lack of shade make many city squares hostile in summer. Permanent tree planting and de-sealing remain the right way forward – but utilities, underground car parks, heritage protection or planning times often make them impossible in the short term.",
-      note: "Cool City is a complementary, mobile measure – not a substitute for permanent street trees or de-sealing.",
       benefits: [
         { title: "Quick to install", text: "No civil works at the site – subject to site and safety assessment." },
         { title: "Professionally operated", text: "Delivery, monitoring, maintenance and seasonal storage within the agreed scope." },
