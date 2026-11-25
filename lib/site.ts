@@ -8,7 +8,7 @@ export const company = {
   legalName: "Voodoo Creative Partners GmbH" as string | null,
   /** Cooler City ist ein Label des Anbieters (Hinweis im Impressum). */
   isLabelOfProvider: true,
-  representative: "Jens-Axel Breuer, Axel Breuer" as string | null,
+  representative: "Jens-Axel Breuer" as string | null,
   street: "Gustav-Stresemann-Ring 41" as string | null,
   postalCity: "50354 Hürth" as string | null,
   /** ISO-Ländercode, wird je Sprache ausgeschrieben */
@@ -18,8 +18,8 @@ export const company = {
   imprintEmail: "voodoopartners@me.com" as string | null,
   phone: null as string | null,
   register: null as string | null,
-  vatId: null as string | null,
-  responsibleForContent: null as string | null,
+  vatId: "DE238391746" as string | null,
+  responsibleForContent: "Jens-Axel Breuer, Gustav-Stresemann-Ring 41, 50354 Hürth" as string | null,
   /** Profil-Links für Footer und strukturierte Daten. Buttons erscheinen, sobald ein Link eingetragen ist. */
   social: { x: "https://x.com/cooler_city" as string | null, linkedin: null as string | null },
 };
