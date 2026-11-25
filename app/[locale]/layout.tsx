@@ -22,15 +22,15 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = getDictionary(locale);
   return {
     metadataBase: new URL(siteUrl),
-    title: { default: d.meta.defaultTitle, template: `%s | Cool City` },
+    title: { default: d.meta.defaultTitle, template: `%s | Cooler City` },
     description: d.meta.defaultDescription,
-    applicationName: "Cool City",
+    applicationName: "Cooler City",
     icons: {
       icon: [{ url: "/brand/cool-city-icon.svg", type: "image/svg+xml" }, { url: "/brand/icon-32.png", sizes: "32x32", type: "image/png" }],
       apple: "/brand/apple-icon.png",
     },
     manifest: "/manifest.webmanifest",
-    openGraph: { siteName: "Cool City", type: "website", images: [{ url: "/brand/og-default.jpg", width: 1200, height: 630, alt: d.home.hero.videoAlt }] },
+    openGraph: { siteName: "Cooler City", type: "website", images: [{ url: "/brand/og-default.jpg", width: 1200, height: 630, alt: d.home.hero.videoAlt }] },
     twitter: { card: "summary_large_image" },
   };
 }
@@ -53,8 +53,8 @@ export default async function LocaleLayout({ children, params }: { children: Rea
   const orgLd = {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Organization", "@id": `${siteUrl}/#org`, name: "Cool City", url: siteUrl, logo: `${siteUrl}/brand/icon-512.png`, ...(company.email ? { email: company.email } : {}) },
-      { "@type": "WebSite", "@id": `${siteUrl}/#website`, name: "Cool City", url: siteUrl, inLanguage: locales, publisher: { "@id": `${siteUrl}/#org` } },
+      { "@type": "Organization", "@id": `${siteUrl}/#org`, name: "Cooler City", url: siteUrl, logo: `${siteUrl}/brand/icon-512.png`, ...(company.email ? { email: company.email } : {}), ...([company.social.x, company.social.linkedin].some(Boolean) ? { sameAs: [company.social.x, company.social.linkedin].filter(Boolean) } : {}) },
+      { "@type": "WebSite", "@id": `${siteUrl}/#website`, name: "Cooler City", url: siteUrl, inLanguage: locales, publisher: { "@id": `${siteUrl}/#org` } },
     ],
   };
 

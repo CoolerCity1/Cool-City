@@ -17,7 +17,7 @@ export function Wordmark({ light = false }: { light?: boolean }) {
         <LogoMark className="h-9 w-9" />
       </span>
       <span className={`text-[1.15rem] font-extrabold tracking-[-0.02em] ${light ? "text-white" : "text-slate"}`}>
-        Cool City
+        Cooler City
       </span>
     </span>
   );

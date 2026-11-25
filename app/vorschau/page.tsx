@@ -16,7 +16,7 @@ export default async function Vorschau({ searchParams }: { searchParams: Promise
 
       <header className="wrap flex items-center gap-3 pt-8">
         <span className="rounded-2xl bg-white p-1.5"><LogoMark className="h-10 w-10" /></span>
-        <span className="text-xl font-extrabold tracking-tight">Cool City</span>
+        <span className="text-xl font-extrabold tracking-tight">Cooler City</span>
       </header>
 
       <section className="wrap flex flex-1 flex-col justify-center py-16">
@@ -54,7 +54,7 @@ export default async function Vorschau({ searchParams }: { searchParams: Promise
         </div>
       </section>
 
-      <footer className="wrap pb-8 text-sm text-white/50">© {new Date().getFullYear()} Cool City</footer>
+      <footer className="wrap pb-8 text-sm text-white/50">© {new Date().getFullYear()} Cooler City</footer>
     </main>
   );
 }

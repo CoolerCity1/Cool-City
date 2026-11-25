@@ -4,7 +4,7 @@
  * und zeigt einen Hinweis. Niemals Platzhalter mit erfundenen Daten befüllen.
  */
 export const company = {
-  brand: "Cool City",
+  brand: "Cooler City",
   legalName: null as string | null,
   representative: null as string | null,
   street: null as string | null,
@@ -15,7 +15,8 @@ export const company = {
   register: null as string | null,
   vatId: null as string | null,
   responsibleForContent: null as string | null,
-  social: { linkedin: null as string | null, instagram: null as string | null },
+  /** Profil-Links für Footer und strukturierte Daten. Buttons erscheinen, sobald ein Link eingetragen ist. */
+  social: { x: null as string | null, linkedin: null as string | null },
 };
 
 export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://cooler.city").replace(/\/$/, "");

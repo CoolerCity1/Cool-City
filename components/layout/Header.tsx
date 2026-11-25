@@ -33,7 +33,7 @@ export function Header({ locale, items, cta, labels, home }: { locale: Locale; i
   return (
     <header className={`sticky top-0 z-40 transition-colors duration-300 ${scrolled || open ? "border-b border-line bg-paper/92 backdrop-blur-md" : "bg-paper"}`}>
       <div className="wrap flex h-[4.5rem] items-center justify-between gap-4">
-        <Link href={home} className="shrink-0 rounded-lg" aria-label="Cool City – Home">
+        <Link href={home} className="shrink-0 rounded-lg" aria-label="Cooler City – Home">
           <Wordmark />
         </Link>
 

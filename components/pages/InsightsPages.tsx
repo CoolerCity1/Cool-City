@@ -53,8 +53,8 @@ export async function ArticlePage({ locale, d, slug }: { locale: Locale; d: Dict
     inLanguage: locale,
     datePublished: a.published_at ?? undefined,
     dateModified: a.updated_at,
-    author: a.author ? { "@type": "Person", name: a.author } : { "@type": "Organization", name: "Cool City" },
-    publisher: { "@type": "Organization", name: "Cool City", logo: { "@type": "ImageObject", url: `${siteUrl}/brand/icon-512.png` } },
+    author: a.author ? { "@type": "Person", name: a.author } : { "@type": "Organization", name: "Cooler City" },
+    publisher: { "@type": "Organization", name: "Cooler City", logo: { "@type": "ImageObject", url: `${siteUrl}/brand/icon-512.png` } },
     mainEntityOfPage: url,
   };
   const breadcrumbs = {

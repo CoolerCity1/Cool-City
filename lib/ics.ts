@@ -21,7 +21,7 @@ export function buildIcs(e: { uid: string; title: string; description?: string |
   const lines = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//Cool City//Webinar//DE",
+    "PRODID:-//Cooler City//Webinar//DE",
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
     "BEGIN:VEVENT",

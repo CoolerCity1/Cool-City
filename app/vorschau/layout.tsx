@@ -5,7 +5,7 @@ import "../globals.css";
 const manrope = Manrope({ subsets: ["latin", "latin-ext"], variable: "--font-manrope", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Cool City – Demnächst",
+  title: "Cooler City – Demnächst",
   description: "Grüne Infrastruktur. Genau dort, wo Städte sie brauchen.",
   robots: { index: false, follow: false },
   icons: { icon: [{ url: "/brand/cool-city-icon.svg", type: "image/svg+xml" }], apple: "/brand/apple-icon.png" },

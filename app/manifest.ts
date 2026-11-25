@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Cool City",
-    short_name: "Cool City",
+    name: "Cooler City",
+    short_name: "Cooler City",
     description: "Urban Cooling on Demand",
     start_url: "/de",
     display: "standalone",

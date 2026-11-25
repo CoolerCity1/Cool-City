@@ -1,4 +1,4 @@
-# Cool City – Hinweise für Claude Code
+# Cooler City – Hinweise für Claude Code
 
 - Verbindliches Briefing: Unternehmens-, Produkt- und Investorenzahlen nie als nachgewiesen darstellen. Neue Kennwerte als `content_entries` (`content_type = 'fact'`, Status `draft`) anlegen, nie hart in Komponenten.
 - Keine Fake-Testimonials, Pilotstädte, Zähler, Logos oder Termine. Renderings immer mit Label „Visualisierung“.

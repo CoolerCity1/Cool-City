@@ -15,7 +15,7 @@ function layout(locale: Locale, inner: string): string {
 <body style="margin:0;background:${colors.concrete};font-family:Manrope,Segoe UI,Helvetica,Arial,sans-serif;color:${colors.slate}">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${colors.concrete};padding:32px 12px"><tr><td align="center">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#fff;border-radius:16px;overflow:hidden">
-<tr><td style="background:${colors.forest};padding:22px 32px;color:#fff;font-weight:800;font-size:18px;letter-spacing:-0.01em">Cool City</td></tr>
+<tr><td style="background:${colors.forest};padding:22px 32px;color:#fff;font-weight:800;font-size:18px;letter-spacing:-0.01em">Cooler City</td></tr>
 <tr><td style="padding:32px;font-size:15px;line-height:1.6">${inner}<p style="margin:28px 0 0">${escapeHtml(d.email.signature)}</p></td></tr>
 <tr><td style="padding:18px 32px;background:${colors.paper};font-size:12px;color:#5b676b">${escapeHtml(d.email.footer)}</td></tr>
 </table></td></tr></table></body></html>`;

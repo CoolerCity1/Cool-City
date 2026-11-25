@@ -1,6 +1,6 @@
-# Cool City – Website & Lead-Plattform
+# Cooler City – Website & Lead-Plattform
 
-Mehrsprachige B2B-Website für **Cool City** (cooler.city): Greenery-as-a-Service für europäische Innenstädte.
+Mehrsprachige B2B-Website für **Cooler City** (cooler.city): Greenery-as-a-Service für europäische Innenstädte.
 
 **Stack:** Next.js 15 (App Router, TypeScript strict) · Tailwind CSS 4 · Supabase (Postgres, Auth, Storage, RLS) · Resend · Vercel
 
@@ -39,7 +39,7 @@ npm test                     # Routing, Markdown-Sanitizing, ICS
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | alle | öffentlicher Anon-/Publishable-Key |
 | `SERVER_RPC_SECRET` | nur Server | muss `private.settings.server_rpc_secret` entsprechen |
 | `RESEND_API_KEY` | nur Server | Resend-Versand |
-| `EMAIL_FROM` | nur Server | z. B. `Cool City <hello@cooler.city>` (Domain muss in Resend verifiziert sein) |
+| `EMAIL_FROM` | nur Server | z. B. `Cooler City <hello@cooler.city>` (Domain muss in Resend verifiziert sein) |
 | `EMAIL_REPLY_TO` | nur Server | Antwortadresse |
 | `INTERNAL_NOTIFY_EMAIL` | nur Server | interne Benachrichtigung neuer Leads (leer = aus) |
 | `RESEND_WEBHOOK_SECRET` | nur Server | `whsec_…` des Resend-Webhooks auf `/api/resend-webhook` |

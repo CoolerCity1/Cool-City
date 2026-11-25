@@ -83,7 +83,7 @@ export async function WebinarDetailPage({ locale, d, id }: { locale: Locale; d: 
     eventAttendanceMode: "https://schema.org/OnlineEventAttendanceMode",
     location: { "@type": "VirtualLocation", url: `${siteUrl}${href(locale, "webinars", web.id)}` },
     inLanguage: web.locale,
-    organizer: { "@type": "Organization", name: "Cool City", url: siteUrl },
+    organizer: { "@type": "Organization", name: "Cooler City", url: siteUrl },
     isAccessibleForFree: true,
   };
 
