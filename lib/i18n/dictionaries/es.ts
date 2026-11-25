@@ -68,7 +68,7 @@ const es: Dictionary = {
   },
   home: {
     hero: {
-      eyebrow: "CLIMATE TECH FOR EUROPEAN CITIES",
+      eyebrow: "Tecnología climática para las ciudades europeas",
       title: "Más sombra para nuestras ciudades. Sin años de planificación.",
       subline:
         "Cool City lleva vegetación móvil y gestionada de forma profesional a los lugares donde las ciudades quieren mejorar rápidamente el espacio público: por temporadas, flexible y sin obra civil convencional en el emplazamiento.",

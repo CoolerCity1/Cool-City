@@ -66,7 +66,7 @@ const de = {
   },
   home: {
     hero: {
-      eyebrow: "CLIMATE TECH FOR EUROPEAN CITIES",
+      eyebrow: "Klimatechnologie für Europas Städte",
       title: "Mehr Schatten für unsere Städte. Ohne jahrelange Planung.",
       subline:
         "Cool City bringt mobile, intelligent betreute Begrünung dorthin, wo Städte schnell neue Aufenthaltsqualität schaffen wollen – saisonal, flexibel und ohne klassische Tiefbauarbeiten am Aufstellort.",

@@ -68,7 +68,7 @@ const it: Dictionary = {
   },
   home: {
     hero: {
-      eyebrow: "CLIMATE TECH FOR EUROPEAN CITIES",
+      eyebrow: "Tecnologia climatica per le città europee",
       title: "Più ombra per le nostre città. Senza anni di pianificazione.",
       subline:
         "Cool City porta verde mobile e gestito in modo professionale dove le città vogliono migliorare rapidamente lo spazio pubblico: stagionale, flessibile e senza opere edili tradizionali sul posto.",
