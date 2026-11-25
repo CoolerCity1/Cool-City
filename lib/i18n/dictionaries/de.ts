@@ -139,8 +139,7 @@ const de = {
     },
     facts: {
       eyebrow: "Zahlen & Fakten",
-      title: "Kennwerte, die wir belegen können.",
-      text: "Wir veröffentlichen technische Kennwerte erst nach Prüfung und Freigabe. Bis dahin nennen wir keine Zahlen, die wir nicht nachweisen können.",
+      title: "CoolBase in Zahlen.",
       empty: "Die technischen Kennwerte des CoolBase Moduls befinden sich in der Verifizierung und werden hier nach Freigabe veröffentlicht.",
     },
     insights: {

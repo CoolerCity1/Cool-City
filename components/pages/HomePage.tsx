@@ -112,7 +112,7 @@ export async function HomePage({ locale, d }: { locale: Locale; d: Dictionary })
       {/* Fakten */}
       <section className="py-20 md:py-28">
         <div className="wrap">
-          <SectionHead eyebrow={h.facts.eyebrow} title={h.facts.title} text={h.facts.text} />
+          <SectionHead eyebrow={h.facts.eyebrow} title={h.facts.title} />
           <div className="mt-12">
             <FactsGrid facts={facts} empty={h.facts.empty} labels={factLabels(locale)} />
           </div>

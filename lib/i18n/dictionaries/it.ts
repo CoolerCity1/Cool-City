@@ -141,8 +141,7 @@ const it: Dictionary = {
     },
     facts: {
       eyebrow: "Dati e fatti",
-      title: "Valori che possiamo dimostrare.",
-      text: "Pubblichiamo valori tecnici solo dopo verifica e approvazione. Fino ad allora non indichiamo cifre che non possiamo dimostrare.",
+      title: "CoolBase in cifre.",
       empty: "I valori tecnici del modulo CoolBase sono in fase di verifica e saranno pubblicati qui dopo l'approvazione.",
     },
     insights: {
