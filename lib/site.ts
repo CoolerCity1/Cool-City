@@ -16,7 +16,7 @@ export const company = {
   vatId: null as string | null,
   responsibleForContent: null as string | null,
   /** Profil-Links für Footer und strukturierte Daten. Buttons erscheinen, sobald ein Link eingetragen ist. */
-  social: { x: null as string | null, linkedin: null as string | null },
+  social: { x: "https://x.com/cooler_city" as string | null, linkedin: null as string | null },
 };
 
 export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://cooler.city").replace(/\/$/, "");

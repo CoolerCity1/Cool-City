@@ -239,3 +239,64 @@ export async function setNewsletterStatus(fd: FormData) {
   await audit("newsletter.unsubscribe", "newsletter_subscriptions", id);
   revalidatePath("/admin/newsletter");
 }
+
+/* ---------- Öffentliche Termine (Messen, Kongresse) ---------- */
+const EVENT_LOCALES = ["de", "en", "es", "it", "fr", "pt"] as const;
+const isoDate = (v: string | null) => (v && /^\d{4}-\d{2}-\d{2}$/.test(v) ? v : null);
+
+export async function saveEvent(fd: FormData) {
+  await requireRole(["admin", "editor"]);
+  const supabase = await supabaseServer();
+  const id = str(fd, "id");
+  const back = id ? `/admin/events/${id}` : "/admin/events";
+  const title = str(fd, "title")?.slice(0, 200) ?? null;
+  const starts = isoDate(str(fd, "starts"));
+  const ends = isoDate(str(fd, "ends")) ?? starts;
+  const url = str(fd, "url");
+  const country = (str(fd, "country") ?? "").toUpperCase();
+  const categoryRaw = str(fd, "category");
+  const category = categoryRaw === "congress" || categoryRaw === "exhibition" ? categoryRaw : "fair";
+  const status = str(fd, "status") === "published" ? "published" : "draft";
+  const city: Record<string, string> = {};
+  const desc: Record<string, string> = {};
+  for (const l of EVENT_LOCALES) {
+    const c = str(fd, `city_${l}`);
+    const t = str(fd, `desc_${l}`);
+    if (c) city[l] = c.slice(0, 120);
+    if (t) desc[l] = t.slice(0, 400);
+  }
+  if (!title || !starts || !ends || ends < starts || !city.de || (url && !/^https:\/\/[^\s]+$/.test(url)) || (country && !/^[A-Z]{2}$/.test(country))) {
+    redirect(`${back}?e=1`);
+  }
+  const data = { starts, ends, country: country || undefined, category, url: url || undefined, city, desc };
+  if (id) {
+    await supabase.from("content_entries").update({ title, data, status, ...(status === "published" ? { published_at: new Date().toISOString() } : {}) }).eq("id", id).eq("content_type", "event");
+    await audit("event.update", "content_entries", id, { status });
+    revalidateTag("content");
+    revalidatePath("/admin/events");
+    redirect(`/admin/events/${id}?ok=1`);
+  }
+  const base = `${title}-${starts.slice(0, 4)}`.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 80);
+  const slug = `${base}-${Math.random().toString(36).slice(2, 6)}`;
+  const { data: row } = await supabase
+    .from("content_entries")
+    .insert({ content_type: "event", locale: "de", slug, title, data, status, ...(status === "published" ? { published_at: new Date().toISOString() } : {}) })
+    .select("id")
+    .single();
+  await audit("event.create", "content_entries", row?.id ?? null, { status });
+  revalidateTag("content");
+  revalidatePath("/admin/events");
+  redirect(row?.id ? `/admin/events/${row.id}?ok=1` : "/admin/events?e=1");
+}
+
+export async function deleteEvent(fd: FormData) {
+  await requireRole(["admin"]);
+  const id = str(fd, "id");
+  if (!id || fd.get("confirm") !== "on") redirect(id ? `/admin/events/${id}` : "/admin/events");
+  const supabase = await supabaseServer();
+  await supabase.from("content_entries").delete().eq("id", id).eq("content_type", "event");
+  await audit("event.delete", "content_entries", id);
+  revalidateTag("content");
+  revalidatePath("/admin/events");
+  redirect("/admin/events");
+}
