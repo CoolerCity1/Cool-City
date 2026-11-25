@@ -7,6 +7,7 @@ import { ModuleDiagram } from "@/components/sections/ModuleDiagram";
 import { SectionHead, VizImage, CtaBand, Check } from "@/components/ui/Section";
 import { FactsGrid } from "@/components/sections/FactsGrid";
 import { WebinarList } from "@/components/sections/WebinarList";
+import { NewsletterTeaser } from "@/components/sections/NewsletterTeaser";
 
 const benefitIcons = [
   <path key="a" d="M4 20h16M7 20V9l5-5 5 5v11M10 20v-5h4v5" />,
@@ -156,6 +157,8 @@ export async function HomePage({ locale, d }: { locale: Locale; d: Dictionary })
           </div>
         </div>
       </section>
+
+      <NewsletterTeaser locale={locale} d={d} source="home" />
 
       <CtaBand title={h.final.title} primary={{ href: requestHref, label: h.final.cta }} secondary={{ href: href(locale, "contact"), label: h.final.secondary }} />
     </>

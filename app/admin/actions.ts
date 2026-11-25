@@ -228,3 +228,14 @@ export async function setDownloadStatus(fd: FormData) {
   await audit("download.status", "downloads", id, { status });
   revalidatePath("/admin/downloads");
 }
+
+export async function setNewsletterStatus(fd: FormData) {
+  await requireRole(["admin", "editor"]);
+  const id = str(fd, "id");
+  const status = str(fd, "status");
+  if (!id || status !== "unsubscribed") redirect("/admin/newsletter");
+  const supabase = await supabaseServer();
+  await supabase.from("newsletter_subscriptions").update({ doi_status: "unsubscribed", unsubscribed_at: new Date().toISOString() }).eq("id", id);
+  await audit("newsletter.unsubscribe", "newsletter_subscriptions", id);
+  revalidatePath("/admin/newsletter");
+}

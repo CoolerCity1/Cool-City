@@ -107,9 +107,13 @@ export const schemas = {
     country: opt(80),
     privacy: consent,
   }),
+  newsletter: z.object({
+    email,
+    privacy: consent,
+  }),
 } as const;
 
-export type LeadType = Exclude<keyof typeof schemas, "webinar">;
+export type LeadType = Exclude<keyof typeof schemas, "webinar" | "newsletter">;
 export const leadTypes: LeadType[] = ["municipality", "investor", "partner", "supplier", "contact"];
 
 export function issuesToErrors(error: z.ZodError): Record<string, ErrorKey> {

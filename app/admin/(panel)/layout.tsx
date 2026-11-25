@@ -22,6 +22,7 @@ export default async function PanelLayout({ children }: { children: React.ReactN
     ["/admin", "Übersicht"],
     ["/admin/leads", "Anfragen"],
     ["/admin/webinars", "Webinare"],
+    ["/admin/newsletter", "Newsletter"],
     ["/admin/content", "Inhalte"],
     ...(staff.role === "admin" ? [["/admin/downloads", "Downloads"]] : []),
   ];

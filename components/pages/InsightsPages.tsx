@@ -7,6 +7,7 @@ import { renderMarkdown } from "@/lib/markdown";
 import { siteUrl } from "@/lib/site";
 import { PageHero } from "@/components/ui/Section";
 import { ArticleFilter } from "@/components/sections/ArticleFilter";
+import { NewsletterTeaser } from "@/components/sections/NewsletterTeaser";
 
 export async function InsightsPage({ locale, d }: { locale: Locale; d: Dictionary }) {
   const articles = await getArticles(locale);
@@ -32,6 +33,7 @@ export async function InsightsPage({ locale, d }: { locale: Locale; d: Dictionar
           )}
         </div>
       </section>
+      <NewsletterTeaser locale={locale} d={d} source="insights" />
     </>
   );
 }

@@ -171,3 +171,41 @@ export async function cancelWebinarRegistration(fd: FormData): Promise<void> {
   }
   redirect(`${href(locale, "webinarCancel")}?done=${ok ? "1" : "0"}`);
 }
+
+/** Eigenständige Newsletter-Anmeldung (Footer/Teaser) mit Double-Opt-in. Antwortet immer gleich, damit keine Adressen ausgespäht werden können. */
+export async function subscribeNewsletter(_prev: FormState, fd: FormData): Promise<FormState> {
+  const values = formValues(fd);
+  const locale: Locale = isLocale(values.locale) ? values.locale : "de";
+
+  const spam = await antiSpam(values);
+  if (spam) return fail(values, {}, spam);
+
+  const parsed = schemas.newsletter.safeParse(values);
+  if (!parsed.success) return fail(values, issuesToErrors(parsed.error), "summary");
+
+  let token: string | null = null;
+  try {
+    const r = await rpc<{ token: string | null }>(
+      "subscribe_newsletter",
+      { p: { email: parsed.data.email, locale, source: values.source?.slice(0, 200) || null, newsletter_version: consentVersions.newsletter } },
+      { secret: true },
+    );
+    token = r.token;
+  } catch (e) {
+    const code = e instanceof RpcError ? e.code : "rpc_failed";
+    console.error("[newsletter] subscribe failed", code);
+    if (code === "invalid_email") return fail(values, { email: "email" }, "summary");
+    return fail(values, {}, "server");
+  }
+
+  if (token) {
+    const t = token;
+    const to = parsed.data.email;
+    after(async () => {
+      const url = `${siteUrl}${href(locale, "newsletter")}?confirm=${t}`;
+      const doi = newsletterDoi(locale, null, url);
+      await sendMail({ key: `newsletter-doi:${t}:${Date.now()}`, event: "newsletter_doi", to, ...doi, locale, template: "newsletter_doi" });
+    });
+  }
+  return { status: "success", errors: {}, values: {}, nonce: Date.now() };
+}

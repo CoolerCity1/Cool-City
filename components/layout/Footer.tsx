@@ -3,6 +3,7 @@ import { Wordmark } from "./Logo";
 import type { Dictionary } from "@/lib/i18n";
 import { href, type Locale } from "@/lib/i18n/config";
 import { company } from "@/lib/site";
+import { NewsletterForm } from "@/components/forms/NewsletterForm";
 
 export function Footer({ locale, d }: { locale: Locale; d: Dictionary }) {
   const col = (title: string, links: { href: string; label: string }[]) => (
@@ -19,6 +20,17 @@ export function Footer({ locale, d }: { locale: Locale; d: Dictionary }) {
   );
   return (
     <footer className="bg-forest-dark text-white">
+      <div className="border-b border-white/10">
+        <div className="wrap grid gap-8 py-12 md:grid-cols-12 md:items-center">
+          <div className="md:col-span-5">
+            <h2 className="text-xl font-extrabold">{d.newsletterSignup.footerTitle}</h2>
+            <p className="mt-2 max-w-md text-white/75">{d.newsletterSignup.footerText}</p>
+          </div>
+          <div className="md:col-span-7">
+            <NewsletterForm d={d.newsletterSignup} errors={d.forms.errors} locale={locale} privacyHref={href(locale, "privacy")} source="footer" tone="dark" />
+          </div>
+        </div>
+      </div>
       <div className="wrap grid gap-12 py-16 md:grid-cols-12">
         <div className="md:col-span-4">
           <Wordmark light />
