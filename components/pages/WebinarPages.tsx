@@ -44,7 +44,7 @@ export async function WebinarDetailPage({ locale, d, id }: { locale: Locale; d: 
   const web = await getWebinar(id);
   if (!web) notFound();
   const w = d.webinars;
-  const fmt = new Intl.DateTimeFormat(dateLocale[locale], { dateStyle: "full", timeStyle: "short", timeZone: "Europe/Berlin", timeZoneName: "short" });
+  const fmt = new Intl.DateTimeFormat(dateLocale[locale], { weekday: "long", day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit", timeZone: "Europe/Berlin", timeZoneName: "short" });
   const cancelled = web.status === "cancelled";
   const full = web.seats_left === 0;
   const end = new Date(new Date(web.starts_at).getTime() + web.duration_minutes * 60_000).toISOString();

@@ -31,7 +31,7 @@ function greet(locale: Locale, name?: string | null): string {
 }
 
 export function formatDateTime(iso: string, locale: Locale): string {
-  return new Intl.DateTimeFormat(dateLocale[locale], { dateStyle: "full", timeStyle: "short", timeZone: "Europe/Berlin", timeZoneName: "short" }).format(new Date(iso));
+  return new Intl.DateTimeFormat(dateLocale[locale], { weekday: "long", day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit", timeZone: "Europe/Berlin", timeZoneName: "short" }).format(new Date(iso));
 }
 
 export function leadConfirmation(locale: Locale, name: string | null, investor: boolean) {
