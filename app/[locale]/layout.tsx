@@ -44,7 +44,6 @@ export default async function LocaleLayout({ children, params }: { children: Rea
   const items = [
     { href: href(locale, "system"), label: d.nav.system },
     { href: href(locale, "municipalities"), label: d.nav.municipalities },
-    { href: href(locale, "investors"), label: d.nav.investors },
     { href: href(locale, "partners"), label: d.nav.partners },
     { href: href(locale, "insights"), label: d.nav.insights },
     { href: href(locale, "webinars"), label: d.nav.webinars },
