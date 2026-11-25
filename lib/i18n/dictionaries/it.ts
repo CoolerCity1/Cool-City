@@ -178,8 +178,6 @@ const it: Dictionary = {
     datasheet: {
       eyebrow: "Scheda tecnica",
       title: "Valori tecnici",
-      text: "Ogni valore ha uno stato di verifica. Pubblichiamo solo valori verificati tecnicamente e approvati.",
-      verified: "verificato",
       empty: "La scheda tecnica è in fase di verifica (statica, peso, volume d'acqua, carico del vento). Sarà disponibile qui e come download dopo l'approvazione.",
     },
     layers: { eyebrow: "Struttura", title: "Strato dopo strato.", text: "Lo schema mostra la struttura prevista. Non sostituisce un disegno costruttivo." },

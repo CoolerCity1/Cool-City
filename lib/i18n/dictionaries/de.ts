@@ -180,8 +180,6 @@ const de = {
     datasheet: {
       eyebrow: "Datenblatt",
       title: "Technische Kennwerte",
-      text: "Jeder Kennwert trägt einen Prüfstatus. Veröffentlicht werden nur Werte, die technisch verifiziert und freigegeben sind.",
-      verified: "verifiziert",
       empty: "Das technische Datenblatt befindet sich in der Verifizierung (Statik, Gewicht, Wasserinhalt, Windlast). Es wird nach Freigabe hier und als Download bereitgestellt.",
     },
     layers: {

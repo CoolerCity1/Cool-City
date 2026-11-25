@@ -1,6 +1,6 @@
 import type { Fact } from "@/lib/content";
 
-export function FactsGrid({ facts, empty, labels, verifiedLabel }: { facts: Fact[]; empty: string; labels: Record<string, string>; verifiedLabel?: string }) {
+export function FactsGrid({ facts, empty, labels }: { facts: Fact[]; empty: string; labels: Record<string, string> }) {
   const shown = facts.filter((f) => f.slug !== "price");
   if (!shown.length) {
     return (
@@ -18,7 +18,6 @@ export function FactsGrid({ facts, empty, labels, verifiedLabel }: { facts: Fact
         <div key={f.slug} className="bg-white p-7">
           <dt className="text-sm font-bold uppercase tracking-[0.12em] text-muted">{labels[f.slug] ?? f.slug}</dt>
           <dd className="mt-3 text-[2rem] font-extrabold leading-tight tracking-tight text-forest">{f.value}</dd>
-          {verifiedLabel && <dd className="mt-2 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-forest"><span className="h-1.5 w-1.5 rounded-full bg-forest" />{verifiedLabel}</dd>}
         </div>
       ))}
     </dl>

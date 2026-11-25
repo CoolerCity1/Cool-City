@@ -45,9 +45,9 @@ export async function SystemPage({ locale, d }: { locale: Locale; d: Dictionary 
       {/* Datenblatt */}
       <section className="py-20 md:py-28" id="datenblatt">
         <div className="wrap">
-          <SectionHead eyebrow={s.datasheet.eyebrow} title={s.datasheet.title} text={s.datasheet.text} />
+          <SectionHead eyebrow={s.datasheet.eyebrow} title={s.datasheet.title} />
           <div className="mt-12">
-            <FactsGrid facts={facts} empty={s.datasheet.empty} labels={factLabels(locale)} verifiedLabel={s.datasheet.verified} />
+            <FactsGrid facts={facts} empty={s.datasheet.empty} labels={factLabels(locale)} />
           </div>
         </div>
       </section>

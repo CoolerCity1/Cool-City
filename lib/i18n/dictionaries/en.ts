@@ -178,8 +178,6 @@ const en: Dictionary = {
     datasheet: {
       eyebrow: "Datasheet",
       title: "Technical specifications",
-      text: "Every value carries a review status. We only publish values that have been technically verified and approved.",
-      verified: "verified",
       empty: "The technical datasheet is being verified (structural analysis, weight, water volume, wind load). It will be provided here and as a download once approved.",
     },
     layers: { eyebrow: "Build-up", title: "Layer by layer.", text: "The schematic shows the planned build-up. It is not a construction drawing." },
