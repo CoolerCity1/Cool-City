@@ -44,7 +44,7 @@ export function Header({ locale, items, cta, labels, home }: { locale: Locale; i
                 <Link
                   href={it.href}
                   aria-current={isActive(it.href) ? "page" : undefined}
-                  className={`inline-flex min-h-11 items-center rounded-full px-3 text-[0.92rem] font-semibold transition-colors hover:bg-concrete ${isActive(it.href) ? "text-forest" : "text-slate"}`}
+                  className={`inline-flex min-h-11 items-center whitespace-nowrap rounded-full px-3 text-[0.92rem] font-semibold transition-colors hover:bg-concrete ${isActive(it.href) ? "text-forest" : "text-slate"}`}
                 >
                   {it.label}
                 </Link>

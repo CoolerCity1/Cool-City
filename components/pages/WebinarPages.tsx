@@ -2,18 +2,31 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n";
 import { href, dateLocale, type Locale } from "@/lib/i18n/config";
-import { getWebinars, getWebinar } from "@/lib/content";
+import { getWebinars, getWebinar, getPublicEvents } from "@/lib/content";
 import { siteUrl } from "@/lib/site";
 import { PageHero } from "@/components/ui/Section";
 import { WebinarList } from "@/components/sections/WebinarList";
+import { EventList } from "@/components/sections/EventList";
 import { WebinarForm } from "@/components/forms/WebinarForm";
 
 export async function WebinarsPage({ locale, d }: { locale: Locale; d: Dictionary }) {
-  const webinars = await getWebinars();
+  const [webinars, events] = await Promise.all([getWebinars(), getPublicEvents(locale)]);
   const w = d.webinars;
   return (
     <>
       <PageHero eyebrow={w.eyebrow} title={w.title} text={w.text} />
+      <nav aria-label={w.jumpLabel} className="pb-10">
+        <div className="wrap flex flex-wrap gap-3">
+          <a href="#webinare" className="btn btn-secondary">{w.jumpWebinars}</a>
+          <a href="#branchentermine" className="btn btn-secondary">{w.events.title}</a>
+        </div>
+      </nav>
+      <section id="webinare" className="scroll-mt-28 pb-8" aria-labelledby="webinare-title">
+        <div className="wrap">
+          <h2 id="webinare-title" className="text-h2">{w.webinarsTitle}</h2>
+          <p className="mt-3 max-w-2xl text-lg text-slate-soft">{w.webinarsText}</p>
+        </div>
+      </section>
       <section className="pb-16">
         <div className="wrap grid gap-4 md:grid-cols-2">
           {(["municipality", "investor"] as const).map((t) => (
@@ -34,6 +47,17 @@ export async function WebinarsPage({ locale, d }: { locale: Locale; d: Dictionar
           {!webinars.length && (
             <Link href={href(locale, "contact")} className="btn btn-secondary mt-6">{w.notify}</Link>
           )}
+        </div>
+      </section>
+      <section id="branchentermine" className="scroll-mt-28 border-t border-line bg-concrete py-20 md:py-24" aria-labelledby="branchentermine-title">
+        <div className="wrap">
+          <p className="eyebrow">{w.events.eyebrow}</p>
+          <h2 id="branchentermine-title" className="mt-4 text-h2">{w.events.title}</h2>
+          <p className="mt-3 max-w-2xl text-lg text-slate-soft">{w.events.text}</p>
+          <div className="mt-10">
+            <EventList locale={locale} d={d} events={events} />
+          </div>
+          <p className="mt-8 max-w-3xl text-sm text-muted">{w.events.disclaimer}</p>
         </div>
       </section>
     </>

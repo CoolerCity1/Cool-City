@@ -98,6 +98,50 @@ export async function getWebinar(id: string): Promise<PublicWebinar | null> {
   return all.find((w) => w.id === id) ?? null;
 }
 
+export type PublicEvent = {
+  slug: string;
+  title: string;
+  starts: string;
+  ends: string;
+  country: string;
+  category: "fair" | "congress" | "exhibition";
+  url: string | null;
+  city: string;
+  description: string;
+};
+
+/** Öffentliche Branchentermine (Messen, Kongresse). Vergangene Termine werden ausgeblendet. */
+export async function getPublicEvents(locale: Locale): Promise<PublicEvent[]> {
+  if (!hasSupabase()) return [];
+  type Row = { slug: string; title: string | null; data: { starts?: string; ends?: string; country?: string; category?: string; url?: string; city?: Record<string, string>; desc?: Record<string, string> } };
+  try {
+    const rows = await restSelect<Row[]>("content_entries?select=slug,title,data&content_type=eq.event&status=eq.published");
+    const today = new Date().toISOString().slice(0, 10);
+    return rows
+      .filter((r) => r.title && r.data?.starts && /^\d{4}-\d{2}-\d{2}$/.test(r.data.starts))
+      .map((r) => {
+        const d = r.data;
+        const category: PublicEvent["category"] = d.category === "congress" ? "congress" : d.category === "exhibition" ? "exhibition" : "fair";
+        const url = d.url && /^https:\/\//.test(d.url) ? d.url : null;
+        return {
+          slug: r.slug,
+          title: r.title as string,
+          starts: d.starts as string,
+          ends: d.ends && /^\d{4}-\d{2}-\d{2}$/.test(d.ends) ? d.ends : (d.starts as string),
+          country: (d.country ?? "").toUpperCase(),
+          category,
+          url,
+          city: d.city?.[locale] ?? d.city?.de ?? "",
+          description: d.desc?.[locale] ?? d.desc?.en ?? d.desc?.de ?? "",
+        } satisfies PublicEvent;
+      })
+      .filter((e) => e.ends >= today)
+      .sort((a, b) => a.starts.localeCompare(b.starts));
+  } catch {
+    return [];
+  }
+}
+
 export function readingMinutes(text: string | null | undefined): number {
   const words = (text ?? "").trim().split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.round(words / 200));
